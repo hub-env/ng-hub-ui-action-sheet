@@ -1,34 +1,34 @@
 {
-  "name": "ng-hub-ui-action-sheet",
-  "version": "0.0.2",
-  "description": "Modern, accessible, mobile-first action sheet components for Angular. Part of the Hub UI ecosystem. Currently in pre-release development.",
-  "keywords": [
-    "angular",
-    "action-sheet",
-    "bottom-sheet",
-    "ng-hub-ui",
-    "hub-ui",
-    "standalone",
-    "mobile",
-    "bootstrap",
-    "ui-components"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/carlos-morcillo/ng-hub-ui-action-sheet"
-  },
-  "bugs": {
-    "url": "https://github.com/carlos-morcillo/ng-hub-ui-action-sheet/issues"
-  },
-  "peerDependencies": {
-    "@angular/common": ">=16.0.0",
-    "@angular/core": ">=16.0.0"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "sideEffects": false,
-  "homepage": "https://hubui.dev/",
-  "author": "Carlos Morcillo <carlos.morcillo@me.com> (https://www.carlosmorcillo.com)"
+	"name": "ng-hub-ui-action-sheet",
+	"version": "0.0.2",
+	"description": "Modern, accessible, mobile-first action sheet components for Angular. Part of the Hub UI ecosystem. Currently in pre-release development.",
+	"keywords": [
+		"angular",
+		"action-sheet",
+		"bottom-sheet",
+		"ng-hub-ui",
+		"hub-ui",
+		"standalone",
+		"mobile",
+		"bootstrap",
+		"ui-components"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/carlos-morcillo/ng-hub-ui-action-sheet"
+	},
+	"bugs": {
+		"url": "https://github.com/carlos-morcillo/ng-hub-ui-action-sheet/issues"
+	},
+	"peerDependencies": {
+		"@angular/common": ">=16.0.0",
+		"@angular/core": ">=16.0.0"
+	},
+	"dependencies": {
+		"tslib": "^2.3.0"
+	},
+	"sideEffects": false,
+	"homepage": "https://hubui.dev/",
+	"author": "Carlos Morcillo <carlos.morcillo@me.com> (https://www.carlosmorcillo.com)"
 }

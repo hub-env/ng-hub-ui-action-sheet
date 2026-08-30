@@ -1,0 +1,289 @@
+:root,
+:host {
+	--hub-action-sheet-z-index: 1055;
+	--hub-action-sheet-backdrop-bg: rgba(0, 0, 0, 0.45);
+	--hub-action-sheet-bg: var(--hub-sys-surface-page, #fff);
+	--hub-action-sheet-color: var(--hub-sys-text-primary, #212529);
+	--hub-action-sheet-border-color: var(--hub-sys-border-color-default, #dee2e6);
+	--hub-action-sheet-border-radius: var(--hub-ref-radius-lg, 0.5rem);
+	--hub-action-sheet-shadow: 0 -0.5rem 1.5rem rgba(0, 0, 0, 0.18);
+	--hub-action-sheet-max-width: 34rem;
+	--hub-action-sheet-padding: var(--hub-ref-space-2, 0.5rem);
+	--hub-action-sheet-gap: var(--hub-ref-space-2, 0.5rem);
+	--hub-action-sheet-inset: var(--hub-ref-space-2, 0.5rem);
+	--hub-action-sheet-duration: 240ms;
+
+	--hub-action-sheet-header-color: var(--hub-sys-text-primary, #212529);
+	--hub-action-sheet-sub-header-color: var(--hub-sys-text-muted, #6c757d);
+	--hub-action-sheet-group-title-color: var(--hub-sys-text-muted, #6c757d);
+
+	--hub-action-sheet-action-color: var(--hub-sys-text-primary, #212529);
+	--hub-action-sheet-action-bg: transparent;
+	--hub-action-sheet-action-hover-bg: var(--hub-sys-color-surface-subtle, #f8f9fa);
+	--hub-action-sheet-action-min-height: 3rem;
+	--hub-action-sheet-action-padding-x: var(--hub-ref-space-3, 1rem);
+	--hub-action-sheet-action-gap: var(--hub-ref-space-2, 0.5rem);
+	--hub-action-sheet-action-font-size: 1rem;
+	--hub-action-sheet-action-radius: var(--hub-ref-radius-md, 0.375rem);
+	--hub-action-sheet-action-disabled-opacity: 0.5;
+
+	--hub-action-sheet-destructive-color: var(--hub-sys-color-danger, #dc3545);
+
+	// Semantic accent, on the same single-slot contract the rest of the family
+	// uses: a `variant` re-bases it and the roles below recompute from it.
+	--hub-action-sheet-accent: var(--hub-sys-color-primary, #0d6efd);
+	--hub-action-sheet-accent-emphasis: color-mix(
+		in oklch,
+		var(--hub-action-sheet-accent) 80%,
+		var(--hub-sys-color-ink, #212529)
+	);
+	--hub-action-sheet-accent-subtle: color-mix(in oklch, var(--hub-action-sheet-accent) 12%, var(--hub-action-sheet-bg));
+	--hub-action-sheet-selected-color: var(--hub-action-sheet-accent);
+	--hub-action-sheet-selected-bg: var(--hub-action-sheet-accent-subtle);
+
+	--hub-action-sheet-handle-width: 2.25rem;
+	--hub-action-sheet-handle-height: 0.25rem;
+	--hub-action-sheet-handle-color: var(--hub-sys-border-color-default, #dee2e6);
+
+	--hub-action-sheet-focus-ring-width: var(--hub-sys-focus-ring-width, 0.25rem);
+	--hub-action-sheet-focus-ring-color: var(--hub-sys-focus-ring-color, rgba(13, 110, 253, 0.25));
+}
+
+:host {
+	position: fixed;
+	inset: 0;
+	z-index: var(--hub-action-sheet-z-index, 1055);
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.hub-action-sheet__backdrop {
+	position: absolute;
+	inset: 0;
+	background-color: var(--hub-action-sheet-backdrop-bg, rgba(0, 0, 0, 0.45));
+}
+
+.hub-action-sheet__sheet {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--hub-action-sheet-gap, 0.5rem);
+	inline-size: 100%;
+	max-inline-size: var(--hub-action-sheet-max-width, 34rem);
+	max-block-size: calc(100% - 2rem);
+	overflow-y: auto;
+	margin: var(--hub-action-sheet-inset, 0.5rem);
+	padding: var(--hub-action-sheet-padding, 0.5rem);
+	border-radius: var(--hub-action-sheet-border-radius, 0.5rem);
+	background-color: var(--hub-action-sheet-bg, #fff);
+	color: var(--hub-action-sheet-color, #212529);
+	box-shadow: var(--hub-action-sheet-shadow, 0 -0.5rem 1.5rem rgba(0, 0, 0, 0.18));
+	// The drag lives here, so the transform must not be transitioned while the
+	// finger is down — only when the sheet snaps back on release.
+	transition: transform var(--hub-action-sheet-duration, 240ms) ease;
+}
+
+:host(.hub-action-sheet--dragging) .hub-action-sheet__sheet {
+	transition: none;
+}
+
+.hub-action-sheet__sheet:focus-visible {
+	outline: 0;
+	box-shadow:
+		var(--hub-action-sheet-shadow, 0 -0.5rem 1.5rem rgba(0, 0, 0, 0.18)),
+		0 0 0 var(--hub-action-sheet-focus-ring-width, 0.25rem) var(--hub-action-sheet-focus-ring-color);
+}
+
+// ─── Grip ────────────────────────────────────────────────────────────────────
+// Its own row rather than a decoration on the header: it is the drag target, and
+// `touch-action: none` here keeps the action list scrollable everywhere else.
+
+.hub-action-sheet__grip {
+	display: flex;
+	justify-content: center;
+	padding-block: var(--hub-ref-space-1, 0.25rem);
+	cursor: grab;
+	touch-action: none;
+}
+
+:host(.hub-action-sheet--dragging) .hub-action-sheet__grip {
+	cursor: grabbing;
+}
+
+.hub-action-sheet__handle {
+	inline-size: var(--hub-action-sheet-handle-width, 2.25rem);
+	block-size: var(--hub-action-sheet-handle-height, 0.25rem);
+	border-radius: 999px;
+	background-color: var(--hub-action-sheet-handle-color, #dee2e6);
+}
+
+// ─── Heading ─────────────────────────────────────────────────────────────────
+
+.hub-action-sheet__heading {
+	padding: var(--hub-ref-space-2, 0.5rem) var(--hub-action-sheet-action-padding-x, 1rem);
+	text-align: center;
+}
+
+.hub-action-sheet__header {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--hub-action-sheet-header-color, #212529);
+}
+
+.hub-action-sheet__sub-header {
+	margin: 0.25rem 0 0;
+	font-size: 0.875rem;
+	color: var(--hub-action-sheet-sub-header-color, #6c757d);
+}
+
+// ─── Actions ─────────────────────────────────────────────────────────────────
+
+.hub-action-sheet__body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--hub-action-sheet-gap, 0.5rem);
+}
+
+.hub-action-sheet__group {
+	display: flex;
+	flex-direction: column;
+}
+
+.hub-action-sheet__group + .hub-action-sheet__group {
+	border-top: 1px solid var(--hub-action-sheet-border-color, #dee2e6);
+	padding-top: var(--hub-action-sheet-gap, 0.5rem);
+}
+
+.hub-action-sheet__group-title {
+	margin: 0;
+	padding: var(--hub-ref-space-1, 0.25rem) var(--hub-action-sheet-action-padding-x, 1rem);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--hub-action-sheet-group-title-color, #6c757d);
+}
+
+.hub-action-sheet__action {
+	display: flex;
+	align-items: center;
+	gap: var(--hub-action-sheet-action-gap, 0.5rem);
+	inline-size: 100%;
+	min-block-size: var(--hub-action-sheet-action-min-height, 3rem);
+	padding-inline: var(--hub-action-sheet-action-padding-x, 1rem);
+	border: 0;
+	border-radius: var(--hub-action-sheet-action-radius, 0.375rem);
+	background-color: var(--hub-action-sheet-action-bg, transparent);
+	color: var(--hub-action-sheet-action-color, #212529);
+	font: inherit;
+	font-size: var(--hub-action-sheet-action-font-size, 1rem);
+	text-align: start;
+	cursor: pointer;
+}
+
+.hub-action-sheet__action:hover:not(:disabled) {
+	background-color: var(--hub-action-sheet-action-hover-bg, rgba(0, 0, 0, 0.05));
+}
+
+.hub-action-sheet__action:focus-visible {
+	outline: 0;
+	box-shadow: 0 0 0 var(--hub-action-sheet-focus-ring-width, 0.25rem) var(--hub-action-sheet-focus-ring-color);
+}
+
+.hub-action-sheet__action:disabled {
+	opacity: var(--hub-action-sheet-action-disabled-opacity, 0.5);
+	cursor: not-allowed;
+}
+
+.hub-action-sheet__action--destructive {
+	color: var(--hub-action-sheet-destructive-color, #dc3545);
+}
+
+.hub-action-sheet__action--selected {
+	color: var(--hub-action-sheet-selected-color);
+	background-color: var(--hub-action-sheet-selected-bg);
+	font-weight: 600;
+}
+
+.hub-action-sheet__action--cancel {
+	justify-content: center;
+	font-weight: 600;
+}
+
+.hub-action-sheet__icon {
+	inline-size: 1.25rem;
+	text-align: center;
+	flex: none;
+}
+
+.hub-action-sheet__label {
+	flex: 1;
+}
+
+.hub-action-sheet__action--cancel .hub-action-sheet__label {
+	flex: none;
+}
+
+// ─── Cancel ──────────────────────────────────────────────────────────────────
+// Set apart on purpose: it is not one more action, it is the way out.
+
+.hub-action-sheet__cancel {
+	border-top: 1px solid var(--hub-action-sheet-border-color, #dee2e6);
+	padding-top: var(--hub-action-sheet-gap, 0.5rem);
+}
+
+// ─── Motion ──────────────────────────────────────────────────────────────────
+
+:host(.hub-action-sheet--animated) .hub-action-sheet__backdrop {
+	animation: hub-action-sheet-fade var(--hub-action-sheet-duration, 240ms) ease;
+}
+
+:host(.hub-action-sheet--animated) .hub-action-sheet__sheet {
+	animation: hub-action-sheet-rise var(--hub-action-sheet-duration, 240ms) ease;
+}
+
+@keyframes hub-action-sheet-fade {
+	from {
+		opacity: 0;
+	}
+}
+
+@keyframes hub-action-sheet-rise {
+	from {
+		transform: translateY(100%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:host(.hub-action-sheet--animated) .hub-action-sheet__backdrop,
+	:host(.hub-action-sheet--animated) .hub-action-sheet__sheet {
+		animation: none;
+	}
+
+	.hub-action-sheet__sheet {
+		transition: none;
+	}
+}
+
+// ─── Semantic variants (open set) ────────────────────────────────────────────
+
+@each $variant in (primary, secondary, success, danger, warning, info, neutral, light, dark) {
+	:host([data-variant='#{$variant}']),
+	.hub-action-sheet[data-variant='#{$variant}'] {
+		--hub-action-sheet-accent: var(--hub-sys-color-#{$variant});
+	}
+}
+
+// Escape hatch for an accent the design system adds later: set only
+// `--hub-action-sheet-accent` and the roles below re-derive from it.
+:host([data-variant]),
+.hub-action-sheet[data-variant] {
+	--hub-action-sheet-accent-emphasis: color-mix(
+		in oklch,
+		var(--hub-action-sheet-accent) 80%,
+		var(--hub-sys-color-ink, #212529)
+	);
+	--hub-action-sheet-accent-subtle: color-mix(in oklch, var(--hub-action-sheet-accent) 12%, var(--hub-action-sheet-bg));
+}

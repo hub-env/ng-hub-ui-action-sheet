@@ -4,15 +4,8 @@
 
 [![NPM Version](https://img.shields.io/npm/v/ng-hub-ui-action-sheet.svg)](https://www.npmjs.com/package/ng-hub-ui-action-sheet)
 [![License](https://img.shields.io/npm/l/ng-hub-ui-action-sheet.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Pre--release-orange.svg)](https://github.com/carlos-morcillo/ng-hub-ui-action-sheet)
 
-> Modern, accessible, mobile-first action sheet components for Angular, part of the Hub UI ecosystem.
-
-> ⚠️ **Pre-release notice (v0.0.1)**
-> This library is an early scaffold. The published package currently ships a single
-> placeholder standalone component and does **not** yet implement a working action sheet.
-> The API described under [Planned API](#-planned-api) is a design target and is **not
-> available yet**. Pin an exact version and expect breaking changes before `1.0.0`.
+> Accessible, mobile-first action sheets for Angular, part of the Hub UI ecosystem.
 
 ## Documentation and Live Examples
 
@@ -21,8 +14,6 @@ This package is part of [Hub UI](https://hubui.dev/en/), a collection of Angular
 - Docs: https://hubui.dev/en/action-sheet/overview/
 - Live examples: https://hubui.dev/en/action-sheet/examples/
 - Hub UI: https://hubui.dev/en/
-
-> **Note:** Documentation pages and live examples are being prepared while the library is in development.
 
 ## 🧩 Library Family `ng-hub-ui`
 
@@ -53,36 +44,26 @@ This library is part of the **ng-hub-ui** ecosystem:
 
 ## 📦 Description
 
-`ng-hub-ui-action-sheet` aims to provide modern, accessible action sheets (bottom sheets)
-for Angular standalone applications — ideal for presenting contextual actions on mobile
-interfaces where screen space is limited. It is designed to integrate cleanly with
-Bootstrap utilities and the Hub UI design system.
+`ng-hub-ui-action-sheet` presents a short list of actions over the current screen — the sheet
+that rises from the bottom edge when a row is held down or a "more" button is tapped. It is
+opened from a service, so nothing sits in the page for a sheet that is closed, and the call
+resolves with whatever the reader chose.
 
-The library is built as a **standalone-component** Angular package (no NgModules).
+Standalone components, no NgModules, and no runtime dependency beyond Angular itself.
 
-## 🚦 Status
+## ✨ Features
 
-This package is in **pre-release (`0.0.1`)**. The action sheet feature set is still being
-built. What ships today is a placeholder component used to bootstrap the package; the rich
-action-sheet API is planned and not yet implemented.
-
-### What exists today
-
-| Symbol         | Selector           | Status              | Notes                                          |
-| -------------- | ------------------ | ------------------- | ---------------------------------------------- |
-| `ActionSheet`  | `lib-action-sheet` | ✅ Available (stub) | Placeholder standalone component. Renders static markup only — no inputs, outputs, or behavior yet. |
-
-### Planned features
-
-- 📱 **Mobile-first design** with optional swipe-to-close gestures
-- 🎯 **Bootstrap-compatible** structure and utility-class friendly markup
-- ♿ **Accessibility** (WCAG 2.1 AA target): focus management, keyboard navigation, screen reader support
-- 🎭 **Multiple variants** (e.g. iOS-style, Material-style, Bootstrap-modal-like)
-- 🧩 **Grouped actions**, headers, footers, and cancel actions
-- 🎨 **CSS variable theming** via `--hub-*` design tokens
-- 🌳 **Tree-shakeable** standalone components
-
-> All planned features above are design targets and are **not yet available** in `0.0.1`.
+- **Actions with roles** — `cancel` is set apart at the end wherever it was declared,
+  `destructive` reads in the danger colour, `selected` is marked, and any other string travels
+  through to the result untouched.
+- **Handlers that can refuse** — returning `false`, or a promise of it, keeps the sheet open.
+- **Grouped actions** with an optional title per block, plus header and sub-header.
+- **Three ways out** — the backdrop, `Escape` and dragging the sheet down, each reporting its own
+  role, and each running the cancel action's handler first.
+- **Accessible** — `role="dialog"` with `aria-modal`, named by its header; focus moves in on open,
+  is trapped while the sheet lives, and returns to the element that opened it.
+- **CSS variable theming** through `--hub-action-sheet-*`, with the semantic accent of the rest of
+  the family, and motion that steps aside under `prefers-reduced-motion`.
 
 ## 🚀 Installation
 
@@ -92,54 +73,168 @@ npm install ng-hub-ui-action-sheet
 
 ## ⚙️ Usage
 
-> The only component currently exported is a placeholder. The example below reflects what
-> is **actually available** in `0.0.1`.
+### Open a sheet
 
 ```typescript
-import { Component } from '@angular/core';
-import { ActionSheet } from 'ng-hub-ui-action-sheet';
+import { Component, inject } from '@angular/core';
+import { HubActionSheet } from 'ng-hub-ui-action-sheet';
 
 @Component({
-	selector: 'app-example',
+	selector: 'app-invoice-row',
 	standalone: true,
-	imports: [ActionSheet],
-	template: `<lib-action-sheet></lib-action-sheet>`
+	template: `<button type="button" (click)="openActions()">More</button>`
 })
-export class ExampleComponent {}
+export class InvoiceRowComponent {
+	readonly #sheet = inject(HubActionSheet);
+
+	async openActions(): Promise<void> {
+		const { role, data } = await this.#sheet.open<string>({
+			header: 'Invoice 2026-0184',
+			subHeader: 'Issued 12 August · 1.240,00 €',
+			buttons: [
+				{ text: 'Download PDF', icon: 'fa-solid fa-download', data: 'pdf' },
+				{ text: 'Send by email', icon: 'fa-solid fa-envelope', data: 'email' },
+				{ text: 'Delete', role: 'destructive', icon: 'fa-solid fa-trash' },
+				{ text: 'Cancel', role: 'cancel' }
+			]
+		}).result;
+
+		if (role === 'destructive') {
+			this.delete();
+		} else if (data === 'pdf') {
+			this.download();
+		}
+	}
+}
+```
+
+The promise resolves once, whatever happens: with the role and data of the chosen action, or with
+`{ role: 'backdrop' | 'escape' | 'swipe' }` when the sheet was dismissed without choosing.
+
+### A handler that refuses to close
+
+```typescript
+this.#sheet.open({
+	buttons: [
+		{
+			text: 'Delete',
+			role: 'destructive',
+			// The sheet stays open while the request runs, and stays open if it fails.
+			handler: async () => {
+				const deleted = await this.api.delete(this.invoice.id);
+				return deleted;
+			}
+		},
+		{ text: 'Cancel', role: 'cancel' }
+	]
+});
+```
+
+### Grouped actions
+
+```typescript
+this.#sheet.open({
+	header: 'Document',
+	buttons: [
+		{ title: 'Share', buttons: [{ text: 'Copy link' }, { text: 'Send by email' }] },
+		{ title: 'Danger zone', buttons: [{ text: 'Delete', role: 'destructive' }] },
+		{ text: 'Cancel', role: 'cancel' }
+	]
+});
+```
+
+### Application-wide defaults
+
+```typescript
+import { provideHubActionSheet } from 'ng-hub-ui-action-sheet';
+
+export const appConfig: ApplicationConfig = {
+	providers: [provideHubActionSheet({ swipeToClose: false })]
+};
 ```
 
 ## 🪄 API Reference
 
-### `ActionSheet` component
+### `HubActionSheet` (service, `providedIn: 'root'`)
 
-- **Selector:** `lib-action-sheet`
-- **Type:** standalone component
-- **Change detection:** default
-- **Inputs:** none
-- **Outputs:** none
-- **Content:** renders a static placeholder template
+| Method | Signature | Description |
+| ------ | --------- | ----------- |
+| `open` | `open<D>(options: HubActionSheetOptions<D>): HubActionSheetRef<D>` | Mounts a sheet on the document and returns the handle to its outcome. |
 
-There is no other public API at this stage. The interfaces below illustrate the **intended**
-shape of the upcoming API and are documented here only to communicate direction — they are
-**not exported** yet.
+### `HubActionSheetRef<D>`
 
-```typescript
-// 🔮 Planned (not available in 0.0.1)
-interface ActionSheetAction {
-	title: string;
-	icon?: string;
-	handler?: () => void;
-	variant?: 'default' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info';
-	disabled?: boolean;
-}
+| Member | Type | Description |
+| ------ | ---- | ----------- |
+| `result` | `Promise<HubActionSheetResult<D>>` | Resolves once, with the chosen action or the dismissal. |
+| `closed$` | `Observable<HubActionSheetResult<D>>` | The same value, for callers living in streams. |
+| `dismiss` | `(role?) => void` | Closes the sheet from the outside — a route change, a message that makes the actions meaningless. |
+| `settled` | `boolean` | Whether the sheet has already produced its result. |
 
-interface ActionSheetConfig {
-	title?: string;
-	cancelText?: string;
-	swipeToClose: boolean;
-	backdropDismiss: boolean;
-	animation: 'slide' | 'fade' | 'none';
-	position: 'bottom' | 'center';
+### `HubActionSheetOptions<D>`
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `buttons` | `(HubActionSheetButton<D> \| HubActionSheetGroup<D>)[]` | — | The actions, flat or in titled groups. |
+| `header` | `string` | `undefined` | Title of the sheet, and its accessible name. |
+| `subHeader` | `string` | `undefined` | Secondary line under the header. |
+| `variant` | `string` | `undefined` | Semantic accent, read as `--hub-sys-color-<variant>`. |
+| `backdropDismiss` | `boolean` | `true` | Clicking the backdrop dismisses the sheet. |
+| `keyboard` | `boolean` | `true` | `Escape` dismisses the sheet. |
+| `swipeToClose` | `boolean` | `true` | Dragging the sheet down past its threshold dismisses it. |
+| `animation` | `boolean` | `true` | Animate entry and exit. Ignored under `prefers-reduced-motion`. |
+| `panelClass` | `string \| string[]` | `undefined` | Extra classes on the sheet element. |
+| `ariaLabel` | `string` | `undefined` | Accessible name when there is no header to give one. |
+
+### `HubActionSheetButton<D>`
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `text` | `string` | Visible text, and the accessible name. |
+| `role` | `'cancel' \| 'destructive' \| 'selected' \| string` | Decides where it sits and how it reads. |
+| `icon` | `string` | Icon class rendered before the text. |
+| `disabled` | `boolean` | Renders the action inert. |
+| `data` | `D` | Payload handed back in the result. |
+| `cssClass` | `string \| string[]` | Extra classes on the action. |
+| `handler` | `() => boolean \| void \| Promise<boolean \| void>` | Runs when chosen; returning `false` keeps the sheet open. |
+
+### `HubActionSheetGroup<D>`
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `title` | `string` | Optional heading above the block. |
+| `buttons` | `HubActionSheetButton<D>[]` | The actions in the block. |
+
+### Result and roles
+
+`result` resolves with `{ role?, data? }`. `role` is the chosen action's role, or `'backdrop'`,
+`'escape'` or `'swipe'` when the sheet was dismissed. A `cancel` action's handler runs on all
+three dismissals, and can refuse them by returning `false`.
+
+## 🎨 Styling
+
+Every visual decision is a CSS variable. Set them on the sheet — `panelClass` gives it a class —
+or globally on `:root`.
+
+| Variable | Default | Description |
+| -------- | ------- | ----------- |
+| `--hub-action-sheet-bg` | `var(--hub-sys-surface-page, #fff)` | Sheet background |
+| `--hub-action-sheet-color` | `var(--hub-sys-text-primary, #212529)` | Sheet text colour |
+| `--hub-action-sheet-backdrop-bg` | `rgba(0, 0, 0, 0.45)` | Backdrop |
+| `--hub-action-sheet-border-radius` | `var(--hub-ref-radius-lg, 0.5rem)` | Corner radius |
+| `--hub-action-sheet-max-width` | `34rem` | Width cap on wide screens |
+| `--hub-action-sheet-action-min-height` | `3rem` | Touch target of each action |
+| `--hub-action-sheet-destructive-color` | `var(--hub-sys-color-danger, #dc3545)` | Colour of the destructive action |
+| `--hub-action-sheet-accent` | `var(--hub-sys-color-primary, #0d6efd)` | Semantic accent, re-based by `variant` |
+| `--hub-action-sheet-handle-color` | `var(--hub-sys-border-color-default, #dee2e6)` | Drag handle |
+| `--hub-action-sheet-duration` | `240ms` | Entry, exit and snap-back |
+
+The full list lives in [`docs/css-variables-reference.md`](docs/css-variables-reference.md).
+
+```scss
+.branded-sheet {
+	--hub-action-sheet-border-radius: 1.25rem;
+	--hub-action-sheet-accent: #7c3aed;
+	--hub-action-sheet-action-min-height: 3.5rem;
 }
 ```
 

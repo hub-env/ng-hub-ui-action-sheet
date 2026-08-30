@@ -1,0 +1,73 @@
+<div class="hub-action-sheet__backdrop" (click)="onBackdrop()"></div>
+
+<div
+	class="hub-action-sheet__sheet"
+	role="dialog"
+	aria-modal="true"
+	tabindex="-1"
+	[class]="panelClasses()"
+	[attr.aria-labelledby]="options().header ? headerId : null"
+	[attr.aria-label]="options().header ? null : (options().ariaLabel ?? null)"
+	[style.transform]="sheetTransform()"
+>
+	@if (options().swipeToClose) {
+		<div
+			class="hub-action-sheet__grip"
+			(pointerdown)="onDragStart($event)"
+			(pointermove)="onDragMove($event)"
+			(pointerup)="onDragEnd()"
+			(pointercancel)="onDragEnd()"
+		>
+			<span class="hub-action-sheet__handle" aria-hidden="true"></span>
+		</div>
+	}
+
+	@if (options().header || options().subHeader) {
+		<header class="hub-action-sheet__heading">
+			@if (options().header) {
+				<h2 class="hub-action-sheet__header" [id]="headerId">{{ options().header }}</h2>
+			}
+			@if (options().subHeader) {
+				<p class="hub-action-sheet__sub-header">{{ options().subHeader }}</p>
+			}
+		</header>
+	}
+
+	<div class="hub-action-sheet__body">
+		@for (group of groups(); track $index) {
+			<div class="hub-action-sheet__group">
+				@if (group.title) {
+					<p class="hub-action-sheet__group-title">{{ group.title }}</p>
+				}
+				@for (button of group.buttons; track $index) {
+					<ng-container [ngTemplateOutlet]="action" [ngTemplateOutletContext]="{ $implicit: button }" />
+				}
+			</div>
+		}
+	</div>
+
+	@if (cancelButton(); as cancel) {
+		<div class="hub-action-sheet__cancel">
+			<ng-container [ngTemplateOutlet]="action" [ngTemplateOutletContext]="{ $implicit: cancel }" />
+		</div>
+	}
+</div>
+
+<ng-template #action let-button>
+	<button
+		type="button"
+		class="hub-action-sheet__action"
+		[class.hub-action-sheet__action--destructive]="button.role === 'destructive'"
+		[class.hub-action-sheet__action--cancel]="button.role === 'cancel'"
+		[class.hub-action-sheet__action--selected]="button.role === 'selected'"
+		[class]="classesFor(button)"
+		[disabled]="button.disabled ?? false"
+		[attr.aria-checked]="button.role === 'selected' ? true : null"
+		(click)="select(button)"
+	>
+		@if (button.icon) {
+			<i class="hub-action-sheet__icon {{ button.icon }}" aria-hidden="true"></i>
+		}
+		<span class="hub-action-sheet__label">{{ button.text }}</span>
+	</button>
+</ng-template>

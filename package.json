@@ -1,7 +1,7 @@
 {
 	"name": "ng-hub-ui-action-sheet",
-	"version": "0.0.2",
-	"description": "Modern, accessible, mobile-first action sheet components for Angular. Part of the Hub UI ecosystem. Currently in pre-release development.",
+	"version": "22.0.0",
+	"description": "Accessible, mobile-first action sheets for Angular standalone applications. Part of the Hub UI ecosystem.",
 	"keywords": [
 		"angular",
 		"action-sheet",
@@ -22,8 +22,8 @@
 		"url": "https://github.com/carlos-morcillo/ng-hub-ui-action-sheet/issues"
 	},
 	"peerDependencies": {
-		"@angular/common": ">=16.0.0",
-		"@angular/core": ">=16.0.0"
+		"@angular/common": ">=18.0.0",
+		"@angular/core": ">=18.0.0"
 	},
 	"dependencies": {
 		"tslib": "^2.3.0"

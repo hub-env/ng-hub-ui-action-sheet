@@ -15,31 +15,35 @@ Este paquete forma parte de [Hub UI](https://hubui.dev/en/), una colección de b
 - Ejemplos en vivo: https://hubui.dev/en/action-sheet/examples/
 - Hub UI: https://hubui.dev/en/
 
-> **Nota:** Las páginas de documentación y los ejemplos en vivo se están preparando mientras la biblioteca está en desarrollo.
-
 ## 🧩 Familia `ng-hub-ui`
 
 Esta biblioteca forma parte del ecosistema **ng-hub-ui**:
 
-- [**ng-hub-ui-accordion**](https://www.npmjs.com/package/ng-hub-ui-accordion) (obsoleto — usa ng-hub-ui-panels)
+- [**ng-hub-ui**](https://www.npmjs.com/package/ng-hub-ui) (instalador paraguas — `ng add ng-hub-ui`)
 - [**ng-hub-ui-action-sheet**](https://www.npmjs.com/package/ng-hub-ui-action-sheet) ← Estás aquí
 - [**ng-hub-ui-avatar**](https://www.npmjs.com/package/ng-hub-ui-avatar)
+- [**ng-hub-ui-badges**](https://www.npmjs.com/package/ng-hub-ui-badges)
 - [**ng-hub-ui-board**](https://www.npmjs.com/package/ng-hub-ui-board)
 - [**ng-hub-ui-breadcrumbs**](https://www.npmjs.com/package/ng-hub-ui-breadcrumbs)
+- [**ng-hub-ui-buttons**](https://www.npmjs.com/package/ng-hub-ui-buttons)
 - [**ng-hub-ui-calendar**](https://www.npmjs.com/package/ng-hub-ui-calendar)
-- [**ng-hub-ui-dropdown**](https://www.npmjs.com/package/ng-hub-ui-dropdown)
 - [**ng-hub-ui-ds**](https://www.npmjs.com/package/ng-hub-ui-ds)
 - [**ng-hub-ui-forms**](https://www.npmjs.com/package/ng-hub-ui-forms)
 - [**ng-hub-ui-history**](https://www.npmjs.com/package/ng-hub-ui-history)
+- [**ng-hub-ui-icons**](https://www.npmjs.com/package/ng-hub-ui-icons)
+- [**ng-hub-ui-loading**](https://www.npmjs.com/package/ng-hub-ui-loading)
+- [**ng-hub-ui-metrics**](https://www.npmjs.com/package/ng-hub-ui-metrics)
 - [**ng-hub-ui-milestones**](https://www.npmjs.com/package/ng-hub-ui-milestones)
 - [**ng-hub-ui-modal**](https://www.npmjs.com/package/ng-hub-ui-modal)
 - [**ng-hub-ui-nav**](https://www.npmjs.com/package/ng-hub-ui-nav)
 - [**ng-hub-ui-paginable**](https://www.npmjs.com/package/ng-hub-ui-paginable)
 - [**ng-hub-ui-panels**](https://www.npmjs.com/package/ng-hub-ui-panels)
 - [**ng-hub-ui-portal**](https://www.npmjs.com/package/ng-hub-ui-portal)
+- [**ng-hub-ui-signature**](https://www.npmjs.com/package/ng-hub-ui-signature)
 - [**ng-hub-ui-skeleton**](https://www.npmjs.com/package/ng-hub-ui-skeleton)
 - [**ng-hub-ui-sortable**](https://www.npmjs.com/package/ng-hub-ui-sortable)
 - [**ng-hub-ui-stepper**](https://www.npmjs.com/package/ng-hub-ui-stepper)
+- [**ng-hub-ui-toast**](https://www.npmjs.com/package/ng-hub-ui-toast)
 - [**ng-hub-ui-utils**](https://www.npmjs.com/package/ng-hub-ui-utils)
 
 ---
@@ -152,9 +156,15 @@ this.#sheet.open({
 import { provideHubActionSheet } from 'ng-hub-ui-action-sheet';
 
 export const appConfig: ApplicationConfig = {
-	providers: [provideHubActionSheet({ swipeToClose: false })]
+	providers: [provideHubActionSheet({ swipeToClose: false, variant: 'brand', panelClass: 'app-sheet' })]
 };
 ```
+
+`provideHubActionSheet` recibe un `Partial<HubActionSheetConfig>`: los cuatro indicadores de
+comportamiento más `variant` y `panelClass`, así que una aplicación fija su acento y la clase de
+sus hojas una sola vez en lugar de repetirlos en cada llamada. Lo que pase un `open()` concreto
+sigue mandando, y las claves que deje en `undefined` caen a los valores configurados en vez de
+sobrescribirlos.
 
 ## 🪄 Referencia de API
 
@@ -207,6 +217,27 @@ export const appConfig: ApplicationConfig = {
 | `title` | `string` | Encabezado opcional del bloque. |
 | `buttons` | `HubActionSheetButton<D>[]` | Las acciones del bloque. |
 
+### `HubActionSheetConfig`
+
+Los valores de los que parte cada hoja. `HubActionSheetOptions` los sobrescribe en cada llamada.
+
+| Propiedad | Tipo | Por defecto | Descripción |
+| --------- | ---- | ----------- | ----------- |
+| `backdropDismiss` | `boolean` | `true` | Pulsar el fondo cierra la hoja. |
+| `keyboard` | `boolean` | `true` | `Escape` cierra la hoja. |
+| `swipeToClose` | `boolean` | `true` | Arrastrar la hoja hacia abajo más allá del umbral la cierra. |
+| `animation` | `boolean` | `true` | Anima entrada y salida. Se ignora con `prefers-reduced-motion`. |
+| `variant` | `string` | `undefined` | Acento semántico con el que arranca cada hoja. |
+| `panelClass` | `string \| string[]` | `undefined` | Clases que lleva cada hoja. |
+
+### Configuración
+
+| Export | Tipo | Descripción |
+| ------ | ---- | ----------- |
+| `provideHubActionSheet` | `(config: Partial<HubActionSheetConfig>) => EnvironmentProviders` | Fija los valores por defecto de la aplicación, fusionados sobre `HUB_ACTION_SHEET_DEFAULTS`. |
+| `HUB_ACTION_SHEET_CONFIG` | `InjectionToken<HubActionSheetConfig>` | El token que lee el servicio. Provéelo directamente para sustituir la configuración entera en vez de fusionarla. |
+| `HUB_ACTION_SHEET_DEFAULTS` | `HubActionSheetConfig` | Lo que hace una hoja si nadie dice otra cosa: los cuatro indicadores anteriores, todos a `true`. |
+
 ### Resultado y roles
 
 `result` se resuelve con `{ role?, data? }`. `role` es el rol de la acción elegida, o `'backdrop'`,
@@ -243,8 +274,7 @@ La lista completa está en [`docs/css-variables-reference.md`](docs/css-variable
 
 ## 🤝 Contribución
 
-¡Las contribuciones son bienvenidas! Esta es una biblioteca en etapa temprana y la ayuda para
-dar forma a la API es especialmente valiosa.
+¡Las contribuciones son bienvenidas! Tanto informes de error, ejemplos y documentación como código.
 
 ```bash
 # Clona el repositorio

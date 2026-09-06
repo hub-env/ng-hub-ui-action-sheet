@@ -19,25 +19,31 @@ This package is part of [Hub UI](https://hubui.dev/en/), a collection of Angular
 
 This library is part of the **ng-hub-ui** ecosystem:
 
-- [**ng-hub-ui-accordion**](https://www.npmjs.com/package/ng-hub-ui-accordion) (deprecated — use ng-hub-ui-panels)
+- [**ng-hub-ui**](https://www.npmjs.com/package/ng-hub-ui) (umbrella installer — `ng add ng-hub-ui`)
 - [**ng-hub-ui-action-sheet**](https://www.npmjs.com/package/ng-hub-ui-action-sheet) ← You are here
 - [**ng-hub-ui-avatar**](https://www.npmjs.com/package/ng-hub-ui-avatar)
+- [**ng-hub-ui-badges**](https://www.npmjs.com/package/ng-hub-ui-badges)
 - [**ng-hub-ui-board**](https://www.npmjs.com/package/ng-hub-ui-board)
 - [**ng-hub-ui-breadcrumbs**](https://www.npmjs.com/package/ng-hub-ui-breadcrumbs)
+- [**ng-hub-ui-buttons**](https://www.npmjs.com/package/ng-hub-ui-buttons)
 - [**ng-hub-ui-calendar**](https://www.npmjs.com/package/ng-hub-ui-calendar)
-- [**ng-hub-ui-dropdown**](https://www.npmjs.com/package/ng-hub-ui-dropdown)
 - [**ng-hub-ui-ds**](https://www.npmjs.com/package/ng-hub-ui-ds)
 - [**ng-hub-ui-forms**](https://www.npmjs.com/package/ng-hub-ui-forms)
 - [**ng-hub-ui-history**](https://www.npmjs.com/package/ng-hub-ui-history)
+- [**ng-hub-ui-icons**](https://www.npmjs.com/package/ng-hub-ui-icons)
+- [**ng-hub-ui-loading**](https://www.npmjs.com/package/ng-hub-ui-loading)
+- [**ng-hub-ui-metrics**](https://www.npmjs.com/package/ng-hub-ui-metrics)
 - [**ng-hub-ui-milestones**](https://www.npmjs.com/package/ng-hub-ui-milestones)
 - [**ng-hub-ui-modal**](https://www.npmjs.com/package/ng-hub-ui-modal)
 - [**ng-hub-ui-nav**](https://www.npmjs.com/package/ng-hub-ui-nav)
 - [**ng-hub-ui-paginable**](https://www.npmjs.com/package/ng-hub-ui-paginable)
 - [**ng-hub-ui-panels**](https://www.npmjs.com/package/ng-hub-ui-panels)
 - [**ng-hub-ui-portal**](https://www.npmjs.com/package/ng-hub-ui-portal)
+- [**ng-hub-ui-signature**](https://www.npmjs.com/package/ng-hub-ui-signature)
 - [**ng-hub-ui-skeleton**](https://www.npmjs.com/package/ng-hub-ui-skeleton)
 - [**ng-hub-ui-sortable**](https://www.npmjs.com/package/ng-hub-ui-sortable)
 - [**ng-hub-ui-stepper**](https://www.npmjs.com/package/ng-hub-ui-stepper)
+- [**ng-hub-ui-toast**](https://www.npmjs.com/package/ng-hub-ui-toast)
 - [**ng-hub-ui-utils**](https://www.npmjs.com/package/ng-hub-ui-utils)
 
 ---
@@ -149,9 +155,14 @@ this.#sheet.open({
 import { provideHubActionSheet } from 'ng-hub-ui-action-sheet';
 
 export const appConfig: ApplicationConfig = {
-	providers: [provideHubActionSheet({ swipeToClose: false })]
+	providers: [provideHubActionSheet({ swipeToClose: false, variant: 'brand', panelClass: 'app-sheet' })]
 };
 ```
+
+`provideHubActionSheet` takes a `Partial<HubActionSheetConfig>`: the four behaviour flags plus
+`variant` and `panelClass`, so an application can settle its accent and its sheet class once
+instead of repeating them at every call. Anything a single `open()` passes still wins, and the
+keys it leaves `undefined` fall back to the configured defaults rather than overwriting them.
 
 ## 🪄 API Reference
 
@@ -204,6 +215,27 @@ export const appConfig: ApplicationConfig = {
 | `title` | `string` | Optional heading above the block. |
 | `buttons` | `HubActionSheetButton<D>[]` | The actions in the block. |
 
+### `HubActionSheetConfig`
+
+The defaults every sheet starts from. `HubActionSheetOptions` overrides them per call.
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `backdropDismiss` | `boolean` | `true` | Clicking the backdrop dismisses the sheet. |
+| `keyboard` | `boolean` | `true` | `Escape` dismisses the sheet. |
+| `swipeToClose` | `boolean` | `true` | Dragging the sheet down past its threshold dismisses it. |
+| `animation` | `boolean` | `true` | Animate entry and exit. Ignored under `prefers-reduced-motion`. |
+| `variant` | `string` | `undefined` | Semantic accent every sheet starts with. |
+| `panelClass` | `string \| string[]` | `undefined` | Classes every sheet carries. |
+
+### Configuration
+
+| Export | Type | Description |
+| ------ | ---- | ----------- |
+| `provideHubActionSheet` | `(config: Partial<HubActionSheetConfig>) => EnvironmentProviders` | Sets the application-wide defaults; merged over `HUB_ACTION_SHEET_DEFAULTS`. |
+| `HUB_ACTION_SHEET_CONFIG` | `InjectionToken<HubActionSheetConfig>` | The token the service reads. Provide it directly to replace the whole configuration rather than merge into it. |
+| `HUB_ACTION_SHEET_DEFAULTS` | `HubActionSheetConfig` | What a sheet does when nobody says otherwise: the four flags above, all `true`. |
+
 ### Result and roles
 
 `result` resolves with `{ role?, data? }`. `role` is the chosen action's role, or `'backdrop'`,
@@ -240,8 +272,7 @@ The full list lives in [`docs/css-variables-reference.md`](docs/css-variables-re
 
 ## 🤝 Contribution
 
-Contributions are welcome — this is an early-stage library and help shaping the API is
-especially valuable.
+Contributions are welcome — bug reports, examples and documentation as much as code.
 
 ```bash
 # Clone the repository

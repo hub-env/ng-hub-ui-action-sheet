@@ -184,7 +184,7 @@
 }
 
 .hub-action-sheet__action:hover:not(:disabled) {
-	background-color: var(--hub-action-sheet-action-hover-bg, rgba(0, 0, 0, 0.05));
+	background-color: var(--hub-action-sheet-action-hover-bg, #f8f9fa);
 }
 
 .hub-action-sheet__action:focus-visible {

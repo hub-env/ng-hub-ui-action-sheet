@@ -3,6 +3,7 @@ import { HubActionSheet } from '../../services/action-sheet.service';
 
 const grip = () => document.querySelector('.hub-action-sheet__grip') as HTMLElement | null;
 const sheet = () => document.querySelector('.hub-action-sheet__sheet') as HTMLElement | null;
+const actions = () => Array.from(document.querySelectorAll<HTMLElement>('.hub-action-sheet__action'));
 const settle = () => new Promise<void>((resolve) => setTimeout(resolve));
 
 /**
@@ -63,5 +64,29 @@ describe('HubActionSheetComponent — swipe to close', () => {
 		service.open({ swipeToClose: false, buttons: [{ text: 'Copy link' }] });
 
 		expect(grip()).toBeNull();
+	});
+});
+
+describe('HubActionSheetComponent — accessible state of the selected role', () => {
+	let service: HubActionSheet;
+
+	beforeEach(() => {
+		TestBed.configureTestingModule({});
+		service = TestBed.inject(HubActionSheet);
+	});
+
+	afterEach(() => {
+		document.querySelectorAll('hub-action-sheet').forEach((el) => el.remove());
+	});
+
+	it('marks the selected action with aria-current, an attribute a button is allowed to carry', () => {
+		service.open({ buttons: [{ text: 'Silent', role: 'selected' }, { text: 'Ring' }] });
+
+		const [selected, plain] = actions();
+
+		expect(selected.getAttribute('aria-current')).toBe('true');
+		expect(selected.hasAttribute('aria-checked')).toBe(false);
+		expect(plain.hasAttribute('aria-current')).toBe(false);
+		expect(plain.hasAttribute('aria-checked')).toBe(false);
 	});
 });

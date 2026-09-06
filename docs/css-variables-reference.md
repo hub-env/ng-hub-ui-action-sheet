@@ -39,7 +39,7 @@ Design-system tokens the sheet reads when no component token is set.
 
 | Variable | Default |
 |---|---|
-| `--hub-ref-space-1` | `0.5rem` |
+| `--hub-ref-space-1` | `0.25rem` |
 | `--hub-ref-space-2` | `0.5rem` |
 | `--hub-ref-space-3` | `1rem` |
 | `--hub-ref-radius-md` | `0.375rem` |
@@ -50,6 +50,8 @@ Design-system tokens the sheet reads when no component token is set.
 | `--hub-sys-border-color-default` | `#dee2e6` |
 | `--hub-sys-color-danger` | `#dc3545` |
 | `--hub-sys-color-primary` | `#0d6efd` |
+| `--hub-sys-color-surface-subtle` | `#f8f9fa` |
+| `--hub-sys-color-ink` | `#212529` |
 | `--hub-sys-focus-ring-width` | `0.25rem` |
 | `--hub-sys-focus-ring-color` | `rgba(13, 110, 253, 0.25)` |
 

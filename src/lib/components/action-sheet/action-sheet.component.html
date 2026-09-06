@@ -62,7 +62,7 @@
 		[class.hub-action-sheet__action--selected]="button.role === 'selected'"
 		[class]="classesFor(button)"
 		[disabled]="button.disabled ?? false"
-		[attr.aria-checked]="button.role === 'selected' ? true : null"
+		[attr.aria-current]="button.role === 'selected' ? 'true' : null"
 		(click)="select(button)"
 	>
 		@if (button.icon) {

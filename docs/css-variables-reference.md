@@ -31,6 +31,12 @@ The sheet is mounted on `document.body`, outside the component that opened it, s
 on that component does not reach it. Set them on `:root`, or hand the sheet a class through
 `panelClass` and target that.
 
+Both work because the component declares no default of its own: the defaults listed below are
+the fallback inside each `var()`, not a rule on the sheet element. That matters more than it
+sounds — a declaration on an element beats a value inherited from an ancestor whatever its
+specificity, so a sheet that declared its own tokens would shut out every `:root` in the
+application, `!important` included.
+
 ---
 
 ## Base System Fallbacks
@@ -113,6 +119,11 @@ Defined and consumed by `projects/action-sheet/src/lib/components/action-sheet/a
 
 > `--hub-action-sheet-accent` is the single accent slot. Passing `variant` on `open()` re-bases it
 > to the matching design-system family; the roles above re-derive from whatever it holds.
+>
+> The derivation happens where the colour is painted, not on the sheet, so re-basing the accent
+> from anywhere — `:root`, a `panelClass` rule, `variant` — recomputes the selection with it.
+> `--hub-action-sheet-accent-emphasis` is the one role the sheet paints nothing with; it is
+> declared on the sheet element so a `panelClass` rule can read it.
 
 ### Grip and focus
 

@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
+## [22.1.0] - 2026-09-07
+
+### Fixed
+
+- **A `:root` in the application now reaches the sheet.** The `--hub-action-sheet-*` defaults were
+  declared in a `:root, :host` block. The emulated-encapsulation shim rewrites `:root` into a
+  selector nothing matches, so what survived was the `:host` half — thirty-odd tokens declared
+  straight on the `<hub-action-sheet>` element. A declaration on an element beats a value
+  inherited from an ancestor whatever its specificity, so every `:root` an application wrote for
+  this library was dead, `!important` included, and the documentation had been sending readers
+  there all along. The block is gone: each token is read where it is painted, as
+  `var(--hub-action-sheet-x, <default>)`, and the defaults carry the same chain as before —
+  component token, then design-system token, then literal — so re-theming through the design
+  system still moves the sheet with it. See `BREAKING_CHANGES.md`: a `:root` block that never did
+  anything starts doing it.
+- **A `panelClass` that re-bases the accent now recolours the selection.** `--hub-action-sheet-accent-subtle`
+  was derived on the host, above the element `panelClass` lands on, so the derived value was
+  already fixed to the sheet's own accent by the time a branded class changed it — the selected
+  action stayed blue. The roles are derived where the colour is painted, so re-basing the accent
+  from `:root`, from a `panelClass` rule or through `variant` all recompute the selection.
+
+### Changed
+
+- **`--hub-action-sheet-accent-emphasis` is declared on the sheet element** rather than on the
+  host. Nothing in the component paints with it — it is the accent family's third role, there for
+  a consumer dressing the sheet — and declaring it beside the accent means a `panelClass` that
+  re-bases the slot recomputes it.
+- **The two READMEs and `docs/css-variables-reference.md` say why both entry points work.**
+  Setting a token on `:root` and setting it through `panelClass` were documented side by side
+  without saying which wins when both are present, and one of the two did not work at all.
+
 ## [22.0.2] - 2026-09-06
 
 ### Added

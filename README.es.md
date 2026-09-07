@@ -249,6 +249,11 @@ tres cierres, y puede negarse a ellos devolviendo `false`.
 Cada decisión visual es una variable CSS. Se definen sobre la hoja —`panelClass` le da una clase—
 o globalmente en `:root`.
 
+Las dos vías llegan. El componente no declara ningún valor por defecto sobre el elemento de la
+hoja: lee cada token con su valor por defecto en la propia lectura, de modo que el `:root` de la
+aplicación se hereda en lugar de quedar anulado, y una regla de `panelClass` —más cercana a la
+hoja— gana sobre ella a su vez.
+
 | Variable | Por defecto | Descripción |
 | -------- | ----------- | ----------- |
 | `--hub-action-sheet-bg` | `var(--hub-sys-surface-page, #fff)` | Fondo de la hoja |

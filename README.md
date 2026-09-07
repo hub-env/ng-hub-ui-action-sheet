@@ -247,6 +247,10 @@ three dismissals, and can refuse them by returning `false`.
 Every visual decision is a CSS variable. Set them on the sheet — `panelClass` gives it a class —
 or globally on `:root`.
 
+Both reach it. The component declares no default of its own on the sheet element; it reads each
+token with its default inline, so an application's `:root` is inherited rather than overruled,
+and a `panelClass` rule — closer to the sheet — wins over that in turn.
+
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | `--hub-action-sheet-bg` | `var(--hub-sys-surface-page, #fff)` | Sheet background |

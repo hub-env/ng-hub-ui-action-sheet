@@ -1,5 +1,29 @@
 # Breaking Changes
 
+## [22.1.0] - 2026-09-07
+
+### The sheet no longer declares its token defaults on its own element
+
+- **Change**: the `--hub-action-sheet-*` defaults used to be declared in a `:root, :host` block
+  in the component stylesheet. Under emulated encapsulation the `:root` half is rewritten into a
+  selector that matches nothing, and the `:host` half declares all thirty-odd tokens directly on
+  the `<hub-action-sheet>` element. The block is gone: each token is now read where it is painted,
+  as `var(--hub-action-sheet-x, <default>)`, and the defaults keep the same chain — component
+  token, then design-system token, then literal.
+- **Impact**: a `:root` rule the application already had now takes effect. That is the fix — the
+  documentation has always sent readers to `:root`, because the sheet is mounted on
+  `document.body` and nothing scoped to the opening component reaches it — but the visible result
+  is that a block which had been silently inert starts painting. Check any `:root` you wrote for
+  this library and never saw applied; it applies now. Two smaller consequences: reading a token
+  off the host element (`getComputedStyle(sheet).getPropertyValue('--hub-action-sheet-bg')`)
+  returns an empty string, since nothing is declared there any more; and the derived accent roles
+  are computed where the colour is painted rather than on the host, so a `panelClass` rule that
+  re-bases `--hub-action-sheet-accent` now recolours the selected action too, which it did not
+  before.
+- **Migration**: none for a sheet themed through `panelClass` or through the design-system
+  tokens — both behave exactly as before. If a `:root` block for this library was written and
+  then abandoned as ineffective, delete it or make it say what you mean.
+
 ## [22.0.0] - 2026-08-30
 
 ### The placeholder component is gone

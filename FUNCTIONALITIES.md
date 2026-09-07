@@ -134,6 +134,8 @@ The library has no template API: the sheet is opened from the `HubActionSheet` s
 | **Variants** | `data-variant` accent map (primary · secondary · success · danger · warning · info · neutral · light · dark) | ✅ |
 | | A variant outside that set, resolved as `--hub-sys-color-<variant>` | ❌ |
 | **Structure** | BEM classes (`hub-action-sheet__sheet`, `__action`, `__group`…) | ❌ |
+| **Scope** | Tokens set through `panelClass`, on the sheet itself | ✅ |
+| | Tokens set application-wide on `:root` — the sheet declares none of its own | ❌ |
 
 ---
 

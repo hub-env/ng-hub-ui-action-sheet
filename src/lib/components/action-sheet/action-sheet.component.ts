@@ -36,6 +36,12 @@ let nextId = 0;
 /**
  * The sheet itself. It is never placed in a template: `HubActionSheet` creates it,
  * mounts it on the document and hands it the options and the handle to settle.
+ *
+ * @deprecated Open a sheet with `HubActionSheet.open()`. This class is exported by accident
+ * and cannot be used from a template: `sheetRef` demands a `HubActionSheetRef` whose closing
+ * half — `settle()` and `registerTeardown()` — is `@internal` and wired by the service, so a
+ * hand-mounted sheet resolves its promise and then stays on screen, behind a backdrop that
+ * traps `Tab` across the whole document. Scheduled for removal in **23.0.0**.
  */
 @Component({
 	selector: 'hub-action-sheet',

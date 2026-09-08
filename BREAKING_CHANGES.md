@@ -1,5 +1,36 @@
 # Breaking Changes
 
+## [22.2.0] - 2026-09-08
+
+### Announced: `HubActionSheetComponent` is removed in 23.0.0
+
+- **Change**: the class is now marked `@deprecated`. Nothing is removed here and nothing changes
+  at runtime — this release is the notice, and the removal lands in 23.0.0, the next version that
+  tracks a new Angular major.
+- **Impact**: from 23.0.0 the symbol is gone from the entry point, so
+  `import { HubActionSheetComponent }` stops compiling. In practice this reaches an application
+  that only ever holds the type, because the component was never usable as a template component:
+  `sheetRef` requires a `HubActionSheetRef`, and the half of that handle which actually closes the
+  sheet — `settle()` and `registerTeardown()` — is `@internal` and wired by the service. Mounted by
+  hand, the sheet resolves its promise and then stays on screen, behind a `position: fixed`
+  backdrop that traps `Tab` across the whole document. That is why the documentation has always
+  said the library has no template API, and why the export was the thing that was wrong.
+- **Migration**: open the sheet through the service, which is what every example already does.
+
+    ```ts
+    // Before — does not close, and there is no supported way to make it
+    // <hub-action-sheet [options]="options" [sheetRef]="ref" />
+
+    // After
+    const sheet = inject(HubActionSheet);
+    const { role } = await sheet.open({
+    	header: 'Invoice 2026-0184',
+    	buttons: [{ text: 'Download PDF' }, { text: 'Cancel', role: 'cancel' }]
+    }).result;
+    ```
+
+    `HubResolvedActionSheetOptions` is not affected: it stays exported.
+
 ## [22.1.0] - 2026-09-07
 
 ### The sheet no longer declares its token defaults on its own element

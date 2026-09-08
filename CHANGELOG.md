@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
+## [22.2.0] - 2026-09-08
+
+### Deprecated
+
+- **`HubActionSheetComponent` is announced for removal in 23.0.0.** The entry point exported it
+  and the documentation said the library has no template API. The documentation was right: the
+  class is exported by accident and cannot be used from a template. `sheetRef` demands a
+  `HubActionSheetRef` whose closing half — `settle()` and `registerTeardown()` — is `@internal`
+  and wired by `HubActionSheet.open()`, so a hand-mounted sheet resolves its promise and then
+  stays on screen, behind a `position: fixed` backdrop that traps `Tab` across the whole
+  document. Nothing is removed here and nothing changes at runtime; this release is the notice,
+  and the removal lands in 23.0.0, the next version that tracks a new Angular major. Open sheets
+  with `HubActionSheet.open()`, which is what every example already does. See
+  `BREAKING_CHANGES.md`.
+
+### Changed
+
+- **`public-api.ts` lists the component by name instead of re-exporting its whole file.** The
+  wildcard hid which symbols were leaving the package; the one on its way out is now named where
+  it is exported, beside the reason. `HubResolvedActionSheetOptions` is unaffected and stays
+  exported.
+
 ## [22.1.0] - 2026-09-07
 
 ### Fixed

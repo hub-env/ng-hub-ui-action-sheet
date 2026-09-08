@@ -4,6 +4,8 @@ This table details the functionalities of the `ng-hub-ui-action-sheet` library a
 
 The library has no template API: the sheet is opened from the `HubActionSheet` service, so the tables below list what `open()` accepts, what the returned handle offers, and what the configuration token sets for the whole application.
 
+The entry point does export `HubActionSheetComponent`, which contradicted that sentence until 22.2.0. The sentence was the true half: mounted from a template the sheet cannot close itself, because the part of `HubActionSheetRef` that tears it down is `@internal` and wired by the service. The class is marked `@deprecated` and leaves in 23.0.0.
+
 ## Service (`HubActionSheet`)
 
 | Category | Functionality | Example Covered |

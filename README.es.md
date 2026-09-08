@@ -244,6 +244,16 @@ Los valores de los que parte cada hoja. `HubActionSheetOptions` los sobrescribe 
 `'escape'` o `'swipe'` si la hoja se cerró. El handler de una acción `cancel` se ejecuta en los
 tres cierres, y puede negarse a ellos devolviendo `false`.
 
+
+### `HubActionSheetComponent` — obsoleto, desaparece en 23.0.0
+
+El punto de entrada todavía exporta el componente de la hoja, y no debería: no hay API de
+plantilla, y la que había nunca funcionó. `sheetRef` exige un `HubActionSheetRef` cuya mitad de
+cierre es `@internal` y la cablea el servicio, así que una hoja colocada en una plantilla resuelve
+su promesa y se queda en pantalla, detrás de un fondo `position: fixed` que atrapa el `Tab` en todo
+el documento. Está marcado como `@deprecated` y se retira en 23.0.0; abre las hojas con
+`HubActionSheet.open()`. Consulta `BREAKING_CHANGES.md`.
+
 ## 🎨 Estilos
 
 Cada decisión visual es una variable CSS. Se definen sobre la hoja —`panelClass` le da una clase—

@@ -242,6 +242,16 @@ The defaults every sheet starts from. `HubActionSheetOptions` overrides them per
 `'escape'` or `'swipe'` when the sheet was dismissed. A `cancel` action's handler runs on all
 three dismissals, and can refuse them by returning `false`.
 
+
+### `HubActionSheetComponent` — deprecated, removed in 23.0.0
+
+The entry point still exports the sheet component, and it should not: there is no template API,
+and there never was one that worked. `sheetRef` demands a `HubActionSheetRef` whose closing half
+is `@internal` and wired by the service, so a sheet placed in a template resolves its promise and
+then stays on screen, behind a `position: fixed` backdrop that traps `Tab` across the whole
+document. It is marked `@deprecated` and leaves in 23.0.0; open sheets with
+`HubActionSheet.open()`. See `BREAKING_CHANGES.md`.
+
 ## 🎨 Styling
 
 Every visual decision is a CSS variable. Set them on the sheet — `panelClass` gives it a class —

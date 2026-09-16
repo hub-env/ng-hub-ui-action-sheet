@@ -14,6 +14,7 @@ Este paquete forma parte de [Hub UI](https://hubui.dev/en/), una colección de b
 - Documentación: https://hubui.dev/en/action-sheet/overview/
 - Ejemplos en vivo: https://hubui.dev/en/action-sheet/examples/
 - Hub UI: https://hubui.dev/en/
+- Hub UI en GitHub (incidencias, roadmap y cómo contribuir): https://github.com/hub-env/hub-ui
 
 ## 🧩 Familia `ng-hub-ui`
 
@@ -293,7 +294,7 @@ La lista completa está en [`docs/css-variables-reference.md`](docs/css-variable
 
 ```bash
 # Clona el repositorio
-git clone https://github.com/carlos-morcillo/ng-hub-ui-action-sheet.git
+git clone https://github.com/hub-env/ng-hub-ui-action-sheet.git
 
 # Instala las dependencias
 npm install
@@ -317,8 +318,8 @@ ng test action-sheet
 ¿Te gusta esta biblioteca? Puedes apoyar su desarrollo invitando a un café ☕:
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/carlosmorcillo)
 
-- [Reportar un error](https://github.com/carlos-morcillo/ng-hub-ui-action-sheet/issues)
-- [Solicitar una funcionalidad](https://github.com/carlos-morcillo/ng-hub-ui-action-sheet/issues/new)
+- [Reportar un error](https://github.com/hub-env/hub-ui/issues)
+- [Solicitar una funcionalidad](https://github.com/hub-env/hub-ui/issues/new)
 
 ## 📄 Licencia
 

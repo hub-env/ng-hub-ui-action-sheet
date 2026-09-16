@@ -14,6 +14,7 @@ This package is part of [Hub UI](https://hubui.dev/en/), a collection of Angular
 - Docs: https://hubui.dev/en/action-sheet/overview/
 - Live examples: https://hubui.dev/en/action-sheet/examples/
 - Hub UI: https://hubui.dev/en/
+- Hub UI on GitHub (issues, roadmap and contributing): https://github.com/hub-env/hub-ui
 
 ## 🧩 Library Family `ng-hub-ui`
 
@@ -290,7 +291,7 @@ Contributions are welcome — bug reports, examples and documentation as much as
 
 ```bash
 # Clone the repository
-git clone https://github.com/carlos-morcillo/ng-hub-ui-action-sheet.git
+git clone https://github.com/hub-env/ng-hub-ui-action-sheet.git
 
 # Install dependencies
 npm install
@@ -314,8 +315,8 @@ ng test action-sheet
 Do you like this library? You can support its development by buying a coffee ☕:
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/carlosmorcillo)
 
-- [Report a bug](https://github.com/carlos-morcillo/ng-hub-ui-action-sheet/issues)
-- [Request a feature](https://github.com/carlos-morcillo/ng-hub-ui-action-sheet/issues/new)
+- [Report a bug](https://github.com/hub-env/hub-ui/issues)
+- [Request a feature](https://github.com/hub-env/hub-ui/issues/new)
 
 ## 📄 License
 

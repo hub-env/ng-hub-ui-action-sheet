@@ -16,10 +16,10 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/carlos-morcillo/ng-hub-ui-action-sheet"
+		"url": "git+https://github.com/hub-env/ng-hub-ui-action-sheet.git"
 	},
 	"bugs": {
-		"url": "https://github.com/carlos-morcillo/ng-hub-ui-action-sheet/issues"
+		"url": "https://github.com/hub-env/hub-ui/issues"
 	},
 	"peerDependencies": {
 		"@angular/common": ">=18.0.0",

@@ -11,7 +11,17 @@
 		"standalone",
 		"mobile",
 		"bootstrap",
-		"ui-components"
+		"ui-components",
+		"sheet",
+		"dialog",
+		"menu",
+		"overlay",
+		"accessibility",
+		"a11y",
+		"focus-trap",
+		"swipe-to-close",
+		"signals",
+		"typescript"
 	],
 	"license": "MIT",
 	"repository": {

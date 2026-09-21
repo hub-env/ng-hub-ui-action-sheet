@@ -1,6 +1,6 @@
 {
 	"name": "ng-hub-ui-action-sheet",
-	"version": "22.2.2",
+	"version": "22.3.0",
 	"description": "Accessible, mobile-first action sheets for Angular standalone applications. Part of the Hub UI ecosystem.",
 	"keywords": [
 		"angular",

@@ -52,9 +52,13 @@ export class HubActionSheet {
 		componentRef.changeDetectorRef.detectChanges();
 
 		ref.registerTeardown(() => {
-			this.#appRef.detachView(componentRef.hostView);
-			componentRef.destroy();
-			previouslyFocused?.focus?.();
+			// The result is already resolved by the time this runs, so waiting for the
+			// closing animation delays nothing the caller is watching.
+			componentRef.instance.playExit(() => {
+				this.#appRef.detachView(componentRef.hostView);
+				componentRef.destroy();
+				previouslyFocused?.focus?.();
+			});
 		});
 
 		return ref;

@@ -31,6 +31,16 @@ const DRAG_THRESHOLD_RATIO = 0.25;
 /** Movement, in pixels, before a press becomes a drag rather than a click. */
 const DRAG_SLOP = 4;
 
+/** Marks the sheet while its closing animation runs. */
+const LEAVING_CLASS = 'hub-action-sheet--leaving';
+
+/**
+ * Longest the teardown waits for the closing animation. A sheet left mounted for
+ * ever is worse than one that leaves abruptly, and an animation can stop
+ * reporting — the tab goes to the background mid-close — without ever settling.
+ */
+const EXIT_FALLBACK_MS = 1000;
+
 let nextId = 0;
 
 /**
@@ -84,6 +94,55 @@ export class HubActionSheetComponent<D = unknown> implements AfterViewInit {
 	 */
 	ngAfterViewInit(): void {
 		this.focusFirstAction();
+	}
+
+	/**
+	 * Plays the closing animation and calls back once it is over, so the sheet
+	 * leaves the way it arrived instead of blinking out. When nothing is actually
+	 * animating — the option off, reduced motion, or a DOM without animations —
+	 * the callback runs straight away.
+	 *
+	 * @internal Called by `HubActionSheet` on teardown.
+	 * @param done Destroys the view; invoked exactly once.
+	 */
+	playExit(done: () => void): void {
+		const host = this.#host.nativeElement;
+
+		if (!this.options().animation) {
+			done();
+			return;
+		}
+
+		host.classList.add(LEAVING_CLASS);
+
+		// Ask the element what is actually running rather than assuming: reduced
+		// motion turns the keyframes off, and a non-browser DOM has no animations at
+		// all. Either way there is nothing to wait for and the sheet leaves at once.
+		const animations = host.getAnimations?.({ subtree: true }) ?? [];
+
+		if (!animations.length) {
+			done();
+			return;
+		}
+
+		let settled = false;
+		let timer: ReturnType<typeof setTimeout> | undefined;
+
+		const finish = () => {
+			if (settled) {
+				return;
+			}
+			settled = true;
+			if (timer !== undefined) {
+				clearTimeout(timer);
+			}
+			done();
+		};
+
+		// A cancelled animation rejects, which is still a reason to take the sheet
+		// down, and the timer covers the tab going to the background mid-close.
+		Promise.all(animations.map((animation) => animation.finished.catch(() => undefined))).then(finish);
+		timer = setTimeout(finish, EXIT_FALLBACK_MS);
 	}
 
 	/**

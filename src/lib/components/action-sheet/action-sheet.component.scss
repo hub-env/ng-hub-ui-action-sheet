@@ -262,6 +262,14 @@ $focus-ring-color: var(--hub-action-sheet-focus-ring-color, var(--hub-sys-focus-
 	animation: hub-action-sheet-rise #{$duration} ease;
 }
 
+:host(.hub-action-sheet--animated.hub-action-sheet--leaving) .hub-action-sheet__backdrop {
+	animation: hub-action-sheet-fade #{$duration} ease reverse both;
+}
+
+:host(.hub-action-sheet--animated.hub-action-sheet--leaving) .hub-action-sheet__sheet {
+	animation: hub-action-sheet-rise #{$duration} ease reverse both;
+}
+
 @keyframes hub-action-sheet-fade {
 	from {
 		opacity: 0;
@@ -276,7 +284,9 @@ $focus-ring-color: var(--hub-action-sheet-focus-ring-color, var(--hub-sys-focus-
 
 @media (prefers-reduced-motion: reduce) {
 	:host(.hub-action-sheet--animated) .hub-action-sheet__backdrop,
-	:host(.hub-action-sheet--animated) .hub-action-sheet__sheet {
+	:host(.hub-action-sheet--animated) .hub-action-sheet__sheet,
+	:host(.hub-action-sheet--animated.hub-action-sheet--leaving) .hub-action-sheet__backdrop,
+	:host(.hub-action-sheet--animated.hub-action-sheet--leaving) .hub-action-sheet__sheet {
 		animation: none;
 	}
 

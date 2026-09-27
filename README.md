@@ -43,6 +43,7 @@ This library is part of the **ng-hub-ui** ecosystem:
 - [**ng-hub-ui-signature**](https://www.npmjs.com/package/ng-hub-ui-signature)
 - [**ng-hub-ui-skeleton**](https://www.npmjs.com/package/ng-hub-ui-skeleton)
 - [**ng-hub-ui-sortable**](https://www.npmjs.com/package/ng-hub-ui-sortable)
+- [**ng-hub-ui-spreadsheet**](https://www.npmjs.com/package/ng-hub-ui-spreadsheet)
 - [**ng-hub-ui-stepper**](https://www.npmjs.com/package/ng-hub-ui-stepper)
 - [**ng-hub-ui-toast**](https://www.npmjs.com/package/ng-hub-ui-toast)
 - [**ng-hub-ui-utils**](https://www.npmjs.com/package/ng-hub-ui-utils)

@@ -269,7 +269,7 @@ hoja— gana sobre ella a su vez.
 | Variable | Por defecto | Descripción |
 | -------- | ----------- | ----------- |
 | `--hub-action-sheet-bg` | `var(--hub-sys-surface-page, #fff)` | Fondo de la hoja |
-| `--hub-action-sheet-color` | `var(--hub-sys-text-primary, #212529)` | Color del texto |
+| `--hub-action-sheet-color` | `var(--hub-sys-text-body, #212529)` | Color del texto |
 | `--hub-action-sheet-backdrop-bg` | `rgba(0, 0, 0, 0.45)` | Fondo oscurecido |
 | `--hub-action-sheet-border-radius` | `var(--hub-ref-radius-lg, 0.5rem)` | Radio de las esquinas |
 | `--hub-action-sheet-max-width` | `34rem` | Ancho máximo en pantallas grandes |

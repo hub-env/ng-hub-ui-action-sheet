@@ -51,7 +51,7 @@ Design-system tokens the sheet reads when no component token is set.
 | `--hub-ref-radius-md` | `0.375rem` |
 | `--hub-ref-radius-lg` | `0.5rem` |
 | `--hub-sys-surface-page` | `#fff` |
-| `--hub-sys-text-primary` | `#212529` |
+| `--hub-sys-text-body` | `#212529` |
 | `--hub-sys-text-muted` | `#6c757d` |
 | `--hub-sys-border-color-default` | `#dee2e6` |
 | `--hub-sys-color-danger` | `#dc3545` |
@@ -74,7 +74,7 @@ Defined and consumed by `projects/action-sheet/src/lib/components/action-sheet/a
 | `--hub-action-sheet-z-index` | `1055` |
 | `--hub-action-sheet-backdrop-bg` | `rgba(0, 0, 0, 0.45)` |
 | `--hub-action-sheet-bg` | `var(--hub-sys-surface-page, #fff)` |
-| `--hub-action-sheet-color` | `var(--hub-sys-text-primary, #212529)` |
+| `--hub-action-sheet-color` | `var(--hub-sys-text-body, #212529)` |
 | `--hub-action-sheet-border-color` | `var(--hub-sys-border-color-default, #dee2e6)` |
 | `--hub-action-sheet-border-radius` | `var(--hub-ref-radius-lg, 0.5rem)` |
 | `--hub-action-sheet-shadow` | `0 -0.5rem 1.5rem rgba(0, 0, 0, 0.18)` |
@@ -88,7 +88,7 @@ Defined and consumed by `projects/action-sheet/src/lib/components/action-sheet/a
 
 | Variable | Default |
 |---|---|
-| `--hub-action-sheet-header-color` | `var(--hub-sys-text-primary, #212529)` |
+| `--hub-action-sheet-header-color` | `var(--hub-sys-text-body, #212529)` |
 | `--hub-action-sheet-sub-header-color` | `var(--hub-sys-text-muted, #6c757d)` |
 | `--hub-action-sheet-group-title-color` | `var(--hub-sys-text-muted, #6c757d)` |
 
@@ -96,7 +96,7 @@ Defined and consumed by `projects/action-sheet/src/lib/components/action-sheet/a
 
 | Variable | Default |
 |---|---|
-| `--hub-action-sheet-action-color` | `var(--hub-sys-text-primary, #212529)` |
+| `--hub-action-sheet-action-color` | `var(--hub-sys-text-body, #212529)` |
 | `--hub-action-sheet-action-bg` | `transparent` |
 | `--hub-action-sheet-action-hover-bg` | `var(--hub-sys-color-surface-subtle, #f8f9fa)` |
 | `--hub-action-sheet-action-min-height` | `3rem` |

@@ -122,7 +122,7 @@ describe('action-sheet token cascade', () => {
 		// the sys token along, or an application that re-themes through the design system stops
 		// moving the sheet with it.
 		expect(css).toContain('var(--hub-action-sheet-bg, var(--hub-sys-surface-page, #fff))');
-		expect(css).toContain('var(--hub-action-sheet-color, var(--hub-sys-text-primary, #212529))');
+		expect(css).toContain('var(--hub-action-sheet-color, var(--hub-sys-text-body, #212529))');
 		expect(css).toContain('var(--hub-action-sheet-border-color, var(--hub-sys-border-color-default, #dee2e6))');
 		expect(css).toContain('var(--hub-action-sheet-destructive-color, var(--hub-sys-color-danger, #dc3545))');
 		expect(css).toContain('var(--hub-action-sheet-accent, var(--hub-sys-color-primary, #0d6efd))');

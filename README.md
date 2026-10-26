@@ -266,7 +266,7 @@ and a `panelClass` rule — closer to the sheet — wins over that in turn.
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | `--hub-action-sheet-bg` | `var(--hub-sys-surface-page, #fff)` | Sheet background |
-| `--hub-action-sheet-color` | `var(--hub-sys-text-primary, #212529)` | Sheet text colour |
+| `--hub-action-sheet-color` | `var(--hub-sys-text-body, #212529)` | Sheet text colour |
 | `--hub-action-sheet-backdrop-bg` | `rgba(0, 0, 0, 0.45)` | Backdrop |
 | `--hub-action-sheet-border-radius` | `var(--hub-ref-radius-lg, 0.5rem)` | Corner radius |
 | `--hub-action-sheet-max-width` | `34rem` | Width cap on wide screens |

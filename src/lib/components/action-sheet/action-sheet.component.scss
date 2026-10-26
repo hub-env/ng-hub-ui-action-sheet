@@ -21,7 +21,7 @@
 $z-index: var(--hub-action-sheet-z-index, 1055);
 $backdrop-bg: var(--hub-action-sheet-backdrop-bg, rgba(0, 0, 0, 0.45));
 $bg: var(--hub-action-sheet-bg, var(--hub-sys-surface-page, #fff));
-$color: var(--hub-action-sheet-color, var(--hub-sys-text-primary, #212529));
+$color: var(--hub-action-sheet-color, var(--hub-sys-text-body, #212529));
 $border-color: var(--hub-action-sheet-border-color, var(--hub-sys-border-color-default, #dee2e6));
 $border-radius: var(--hub-action-sheet-border-radius, var(--hub-ref-radius-lg, 0.5rem));
 $shadow: var(--hub-action-sheet-shadow, 0 -0.5rem 1.5rem rgba(0, 0, 0, 0.18));
@@ -32,12 +32,12 @@ $inset: var(--hub-action-sheet-inset, var(--hub-ref-space-2, 0.5rem));
 $duration: var(--hub-action-sheet-duration, 240ms);
 
 // Heading
-$header-color: var(--hub-action-sheet-header-color, var(--hub-sys-text-primary, #212529));
+$header-color: var(--hub-action-sheet-header-color, var(--hub-sys-text-body, #212529));
 $sub-header-color: var(--hub-action-sheet-sub-header-color, var(--hub-sys-text-muted, #6c757d));
 $group-title-color: var(--hub-action-sheet-group-title-color, var(--hub-sys-text-muted, #6c757d));
 
 // Actions
-$action-color: var(--hub-action-sheet-action-color, var(--hub-sys-text-primary, #212529));
+$action-color: var(--hub-action-sheet-action-color, var(--hub-sys-text-body, #212529));
 $action-bg: var(--hub-action-sheet-action-bg, transparent);
 $action-hover-bg: var(--hub-action-sheet-action-hover-bg, var(--hub-sys-color-surface-subtle, #f8f9fa));
 $action-min-height: var(--hub-action-sheet-action-min-height, 3rem);

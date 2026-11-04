@@ -52,7 +52,7 @@ Design-system tokens the sheet reads when no component token is set.
 | `--hub-ref-radius-lg` | `0.5rem` |
 | `--hub-sys-surface-page` | `#fff` |
 | `--hub-sys-text-body` | `#212529` |
-| `--hub-sys-text-muted` | `#6c757d` |
+| `--hub-sys-text-muted` | `#6a737b` |
 | `--hub-sys-border-color-default` | `#dee2e6` |
 | `--hub-sys-color-danger` | `#dc3545` |
 | `--hub-sys-color-primary` | `#0d6efd` |
@@ -89,8 +89,8 @@ Defined and consumed by `projects/action-sheet/src/lib/components/action-sheet/a
 | Variable | Default |
 |---|---|
 | `--hub-action-sheet-header-color` | `var(--hub-sys-text-body, #212529)` |
-| `--hub-action-sheet-sub-header-color` | `var(--hub-sys-text-muted, #6c757d)` |
-| `--hub-action-sheet-group-title-color` | `var(--hub-sys-text-muted, #6c757d)` |
+| `--hub-action-sheet-sub-header-color` | `var(--hub-sys-text-muted, #6a737b)` |
+| `--hub-action-sheet-group-title-color` | `var(--hub-sys-text-muted, #6a737b)` |
 
 ### Actions
 
